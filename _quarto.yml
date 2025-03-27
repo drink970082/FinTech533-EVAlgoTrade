@@ -1,8 +1,9 @@
 project:
   type: website
+  output-dir: .
 
 website:
-  title: "."
+  title: "EVAlgoTrade"
   navbar:
     left:
       - href: index.qmd
