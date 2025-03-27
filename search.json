@@ -1,10 +1,10 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "EVAlgoTrade",
+    "objectID": "quarto/about.html",
+    "href": "quarto/about.html",
+    "title": "About",
     "section": "",
-    "text": "Home page fro EVAlgoTrade Strategy"
+    "text": "About this site"
   },
   {
     "objectID": "about.html",
@@ -12,5 +12,19 @@
     "title": "About",
     "section": "",
     "text": "About this site"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "EVAlgoTrade",
+    "section": "",
+    "text": "Home page fro EVAlgoTrade Strategy"
+  },
+  {
+    "objectID": "quarto/index.html",
+    "href": "quarto/index.html",
+    "title": "EVAlgoTrade",
+    "section": "",
+    "text": "Home page for EVAlgoTrade Strategy"
   }
 ]
