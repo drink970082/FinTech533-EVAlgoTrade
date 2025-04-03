@@ -2,4 +2,10 @@
 title: "EVAlgoTrade"
 ---
 
-Home page for EVAlgoTrade Strategy
+## Welcome to EVAlgoTrade
+
+Our pair trading strategy focuses on **Rivian** and **Tesla**—two major players in the electric vehicle (EV) industry—by capitalizing on their *relative* performance rather than overall market trends.
+
+We monitor the price relationship between the two stocks and identify short-term divergences from their historical correlation. When one stock appears undervalued compared to the other, we take a **long position** in the undervalued stock and a **short position** in the overvalued one.
+
+This **market-neutral approach** helps reduce exposure to EV sector volatility and aims to generate returns as the price spread between the two converges. By exploiting inefficiencies in the pricing relationship, we turn relative movements into opportunity.
