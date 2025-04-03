@@ -1,5 +1,0 @@
----
-title: "EVAlgoTrade"
----
-
-Home page fro EVAlgoTrade Strategy
