@@ -8,6 +8,7 @@ format:
     theme: cosmo
 ---
 
+
 ## Pair Trading Strategy Overview
 
 ::: {.callout-note title="Trading Setup"}
