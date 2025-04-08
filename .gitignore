@@ -3,3 +3,8 @@
 **.env
 activate.sh
 /.quarto/
+__pycache__/
+*.pyc
+**.egg-info
+*.DS_Store
+*.ipynb_checkpoints
