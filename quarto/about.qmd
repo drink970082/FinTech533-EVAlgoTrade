@@ -206,13 +206,15 @@ format:
 ## Graphs
 
 ### TSLA vs. RIVN Stock Log Prices
-![](images/log.png)
+<iframe src="/images/log_price.html" width="100%" height="500" frameborder="0"></iframe>
 
 ### Rolling ADF Test on Spread (window=60)
-![](images/adf.png)
+<iframe src="/images/adf_test.html" width="100%" height="500" frameborder="0"></iframe>
 
 ### Spread and Trade Entry/Exit Points
-![](images/spread.png)
+<iframe src="/images/spread.html" width="100%" height="500" frameborder="0"></iframe>
 
 ### PnL Over Time
-![](images/PnL.png)
+<iframe src="/images/cumulative_pnl.html" width="100%" height="500" frameborder="0"></iframe>
+
+

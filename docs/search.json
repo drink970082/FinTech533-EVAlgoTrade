@@ -1,5 +1,19 @@
 [
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "EVAlgoTrade",
+    "section": "",
+    "text": "Our pair trading strategy focuses on Rivian and Tesla—two major players in the electric vehicle (EV) industry—by capitalizing on their relative performance rather than overall market trends.\nWe monitor the price relationship between the two stocks and identify short-term divergences from their historical correlation. When one stock appears undervalued compared to the other, we take a long position in the undervalued stock and a short position in the overvalued one.\nThis market-neutral approach helps reduce exposure to EV sector volatility and aims to generate returns as the price spread between the two converges. By exploiting inefficiencies in the pricing relationship, we turn relative movements into opportunity."
+  },
+  {
+    "objectID": "index.html#welcome-to-evalgotrade",
+    "href": "index.html#welcome-to-evalgotrade",
+    "title": "EVAlgoTrade",
+    "section": "",
+    "text": "Our pair trading strategy focuses on Rivian and Tesla—two major players in the electric vehicle (EV) industry—by capitalizing on their relative performance rather than overall market trends.\nWe monitor the price relationship between the two stocks and identify short-term divergences from their historical correlation. When one stock appears undervalued compared to the other, we take a long position in the undervalued stock and a short position in the overvalued one.\nThis market-neutral approach helps reduce exposure to EV sector volatility and aims to generate returns as the price spread between the two converges. By exploiting inefficiencies in the pricing relationship, we turn relative movements into opportunity."
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "Strategy",
@@ -32,20 +46,6 @@
     "href": "about.html#graphs",
     "title": "Strategy",
     "section": "4 Graphs",
-    "text": "4 Graphs\n\n4.1 TSLA vs. RIVN Stock Log Prices\n\n\n\n4.2 Rolling ADF Test on Spread (window=60)\n\n\n\n4.3 Spread and Trade Entry/Exit Points\n\n\n\n4.4 PnL Over Time"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "EVAlgoTrade",
-    "section": "",
-    "text": "Our pair trading strategy focuses on Rivian and Tesla—two major players in the electric vehicle (EV) industry—by capitalizing on their relative performance rather than overall market trends.\nWe monitor the price relationship between the two stocks and identify short-term divergences from their historical correlation. When one stock appears undervalued compared to the other, we take a long position in the undervalued stock and a short position in the overvalued one.\nThis market-neutral approach helps reduce exposure to EV sector volatility and aims to generate returns as the price spread between the two converges. By exploiting inefficiencies in the pricing relationship, we turn relative movements into opportunity."
-  },
-  {
-    "objectID": "index.html#welcome-to-evalgotrade",
-    "href": "index.html#welcome-to-evalgotrade",
-    "title": "EVAlgoTrade",
-    "section": "",
-    "text": "Our pair trading strategy focuses on Rivian and Tesla—two major players in the electric vehicle (EV) industry—by capitalizing on their relative performance rather than overall market trends.\nWe monitor the price relationship between the two stocks and identify short-term divergences from their historical correlation. When one stock appears undervalued compared to the other, we take a long position in the undervalued stock and a short position in the overvalued one.\nThis market-neutral approach helps reduce exposure to EV sector volatility and aims to generate returns as the price spread between the two converges. By exploiting inefficiencies in the pricing relationship, we turn relative movements into opportunity."
+    "text": "4 Graphs\n\n4.1 TSLA vs. RIVN Stock Log Prices\n\n\n\n\n4.2 Rolling ADF Test on Spread (window=60)\n\n\n\n\n4.3 Spread and Trade Entry/Exit Points\n\n\n\n\n4.4 PnL Over Time"
   }
 ]
