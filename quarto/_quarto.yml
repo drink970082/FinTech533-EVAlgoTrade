@@ -9,6 +9,9 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+    right:
+      - icon: "github"
+        href: "https://github.com/drink970082/FinTech533-EVAlgoTrade"
 
 format:
   html:
