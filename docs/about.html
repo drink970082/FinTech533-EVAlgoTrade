@@ -150,8 +150,9 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#pair-trading-strategy-overview" id="toc-pair-trading-strategy-overview" class="nav-link active" data-scroll-target="#pair-trading-strategy-overview"><span class="header-section-number">1</span> Pair Trading Strategy Overview</a></li>
   <li><a href="#strategy-logic" id="toc-strategy-logic" class="nav-link" data-scroll-target="#strategy-logic"><span class="header-section-number">2</span> Strategy Logic</a></li>
-  <li><a href="#blotter-example" id="toc-blotter-example" class="nav-link" data-scroll-target="#blotter-example"><span class="header-section-number">3</span> Blotter (Example)</a></li>
-  <li><a href="#graphs" id="toc-graphs" class="nav-link" data-scroll-target="#graphs"><span class="header-section-number">4</span> Graphs</a></li>
+  <li><a href="#blotter" id="toc-blotter" class="nav-link" data-scroll-target="#blotter"><span class="header-section-number">3</span> Blotter</a></li>
+  <li><a href="#ledger" id="toc-ledger" class="nav-link" data-scroll-target="#ledger"><span class="header-section-number">4</span> Ledger</a></li>
+  <li><a href="#graphs" id="toc-graphs" class="nav-link" data-scroll-target="#graphs"><span class="header-section-number">5</span> Graphs</a></li>
   </ul>
 </nav>
     </div>
@@ -205,11 +206,12 @@ Trading Setup
 <li><p><strong>Calculate Hedge Ratio</strong> Compute the hedge ratio <span class="math inline">\(\beta_i\)</span> based on the past 20 days of log prices: <span class="math display">\[
 \beta_i = \frac{\text{Cov}(\log P_{\text{RIVN}}, \log P_{\text{TSLA}})}{\text{Var}(\log P_{\text{TSLA}})}
 \]</span></p></li>
-<li><p><strong>Compute Spread</strong> <span class="math display">\[
-\text{Spread}_t = \log(P_{\text{RIVN}, t}) - \beta_i \cdot \log(P_{\text{TSLA}, t})
+<li><p><strong>Compute Spread and Z-Score</strong> <span class="math display">\[
+\text{Spread}_t = \log(P_{\text{RIVN}, t}) - \beta_i \cdot \log(P_{\text{TSLA}, t}) \\
+z_t = \frac{\text{Spread}_t-\text{mean}({\text{Spread}_{t-20:t}})}{\text{std}(\text{Spread}_{t-20:t})}
 \]</span></p></li>
 <li><p><strong>Cointegration Test</strong> Test 60-day rolling window of log prices for cointegration using the ADF test.</p></li>
-<li><p><strong>Z-Score Based Trading Rules</strong> If cointegration is statistically significant:</p>
+<li><p><strong>Z-Score Based Trading Rules</strong> If cointegration is statistically significant (p&lt;0.05):</p>
 <ul>
 <li><strong>Entry</strong>: if <span class="math inline">\(Z &gt; 2\)</span> or <span class="math inline">\(Z &lt; -2\)</span></li>
 <li><strong>Exit</strong>: if <span class="math inline">\(|Z| &lt; 0.5\)</span></li>
@@ -218,30 +220,35 @@ Trading Setup
 <li><p><strong>Trading Session Timeout</strong> Force close any open positions after 10 trading days.</p></li>
 </ol>
 </section>
-<section id="blotter-example" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="blotter-example"><span class="header-section-number">3</span> Blotter (Example)</h2>
+<section id="blotter" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="blotter"><span class="header-section-number">3</span> Blotter</h2>
 <iframe src="./dataframe/blotter.html" width="100%" height="500" frameborder="0">
 </iframe>
 </section>
-<section id="graphs" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="graphs"><span class="header-section-number">4</span> Graphs</h2>
-<section id="tsla-vs.-rivn-stock-log-prices" class="level3" data-number="4.1">
-<h3 data-number="4.1" class="anchored" data-anchor-id="tsla-vs.-rivn-stock-log-prices"><span class="header-section-number">4.1</span> TSLA vs.&nbsp;RIVN Stock Log Prices</h3>
+<section id="ledger" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="ledger"><span class="header-section-number">4</span> Ledger</h2>
+<iframe src="./dataframe/ledger.html" width="100%" height="500" frameborder="0">
+</iframe>
+</section>
+<section id="graphs" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="graphs"><span class="header-section-number">5</span> Graphs</h2>
+<section id="tsla-vs.-rivn-stock-log-prices" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="tsla-vs.-rivn-stock-log-prices"><span class="header-section-number">5.1</span> TSLA vs.&nbsp;RIVN Stock Log Prices</h3>
 <iframe src="./images/log_price.html" width="100%" height="500" frameborder="0">
 </iframe>
 </section>
-<section id="rolling-adf-test-on-spread-window60" class="level3" data-number="4.2">
-<h3 data-number="4.2" class="anchored" data-anchor-id="rolling-adf-test-on-spread-window60"><span class="header-section-number">4.2</span> Rolling ADF Test on Spread (window=60)</h3>
+<section id="rolling-adf-test-on-spread-window60" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="rolling-adf-test-on-spread-window60"><span class="header-section-number">5.2</span> Rolling ADF Test on Spread (window=60)</h3>
 <iframe src="./images/adf_test.html" width="100%" height="500" frameborder="0">
 </iframe>
 </section>
-<section id="spread-and-trade-entryexit-points" class="level3" data-number="4.3">
-<h3 data-number="4.3" class="anchored" data-anchor-id="spread-and-trade-entryexit-points"><span class="header-section-number">4.3</span> Spread and Trade Entry/Exit Points</h3>
+<section id="spread-and-trade-entryexit-points" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="spread-and-trade-entryexit-points"><span class="header-section-number">5.3</span> Spread and Trade Entry/Exit Points</h3>
 <iframe src="./images/spread.html" width="100%" height="500" frameborder="0">
 </iframe>
 </section>
-<section id="pnl-over-time" class="level3" data-number="4.4">
-<h3 data-number="4.4" class="anchored" data-anchor-id="pnl-over-time"><span class="header-section-number">4.4</span> PnL Over Time</h3>
+<section id="pnl-over-time" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="pnl-over-time"><span class="header-section-number">5.4</span> PnL Over Time</h3>
 <iframe src="./images/cumulative_pnl.html" width="100%" height="500" frameborder="0">
 </iframe>
 
