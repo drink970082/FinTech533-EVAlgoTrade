@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -153,6 +187,8 @@ window.Quarto = {
   <li><a href="#blotter" id="toc-blotter" class="nav-link" data-scroll-target="#blotter"><span class="header-section-number">3</span> Blotter</a></li>
   <li><a href="#ledger" id="toc-ledger" class="nav-link" data-scroll-target="#ledger"><span class="header-section-number">4</span> Ledger</a></li>
   <li><a href="#graphs" id="toc-graphs" class="nav-link" data-scroll-target="#graphs"><span class="header-section-number">5</span> Graphs</a></li>
+  <li><a href="#reflection-and-future-work" id="toc-reflection-and-future-work" class="nav-link" data-scroll-target="#reflection-and-future-work"><span class="header-section-number">6</span> Reflection and Future Work</a></li>
+  <li><a href="#ols-regression-results-of-the-whole-trading-period" id="toc-ols-regression-results-of-the-whole-trading-period" class="nav-link" data-scroll-target="#ols-regression-results-of-the-whole-trading-period"><span class="header-section-number">7</span> OLS Regression Results of the whole trading period</a></li>
   </ul>
 </nav>
     </div>
@@ -191,9 +227,10 @@ Trading Setup
 </div>
 <div class="callout-body-container callout-body">
 <ul>
+<li><strong>Trading Time</strong>: Past three years</li>
 <li><strong>Data Frequency</strong>: Daily resolution</li>
-<li><strong>Hedge Ratio Update</strong>: Every two weeks</li>
-<li><strong>Cointegration Test Frequency</strong>: Every two weeks</li>
+<li><strong>Hedge Ratio Window</strong>: 20 days</li>
+<li><strong>Cointegration Test Window</strong>: 60 days</li>
 <li><strong>Trading Session Timeout</strong>: 10 days</li>
 </ul>
 </div>
@@ -207,11 +244,12 @@ Trading Setup
 \beta_i = \frac{\text{Cov}(\log P_{\text{RIVN}}, \log P_{\text{TSLA}})}{\text{Var}(\log P_{\text{TSLA}})}
 \]</span> Then using hedge ratio to hedge a notional value of $10000 position of both stocks</p></li>
 <li><p><strong>Compute Spread and Z-Score</strong> <span class="math display">\[
-\text{Spread}_t = \log(P_{\text{RIVN}, t}) - \beta_i \cdot \log(P_{\text{TSLA}, t}) \\
+\text{Spread}_t = \log(P_{\text{RIVN}, t}) - \beta_i \cdot \log(P_{\text{TSLA}, t})\\
+\]</span> <span class="math display">\[
 z_t = \frac{\text{Spread}_t-\text{mean}({\text{Spread}_{t-20:t}})}{\text{std}(\text{Spread}_{t-20:t})}
 \]</span></p></li>
 <li><p><strong>Cointegration Test</strong> Test 60-day rolling window of log prices for cointegration using the ADF test.</p></li>
-<li><p><strong>Z-Score Based Trading Rules</strong> If cointegration is statistically significant (p&lt;0.05):</p>
+<li><p><strong>Z-Score Based Trading Rules</strong> If cointegration is statistically significant <span class="math inline">\(p&lt;0.05\)</span>:</p>
 <ul>
 <li><strong>Entry</strong>: if <span class="math inline">\(Z &gt; 2\)</span> or <span class="math inline">\(Z &lt; -2\)</span></li>
 <li><strong>Exit</strong>: if <span class="math inline">\(|Z| &lt; 0.5\)</span></li>
@@ -220,7 +258,7 @@ z_t = \frac{\text{Spread}_t-\text{mean}({\text{Spread}_{t-20:t}})}{\text{std}(\t
 <li><p><strong>Trading Session Timeout</strong> Exit trades when:</p>
 <ul>
 <li>trade lasting over 10 days, and</li>
-<li><span class="math inline">\(|Z| &gt; 3\)</span> (not reverting) or (p&gt;0.05) (cointegration fails)</li>
+<li><span class="math inline">\(|Z| &gt; 3\)</span> (not reverting) or <span class="math inline">\(p&gt;0.05\)</span> (cointegration fails)</li>
 </ul></li>
 </ol>
 </section>
@@ -255,9 +293,49 @@ z_t = \frac{\text{Spread}_t-\text{mean}({\text{Spread}_{t-20:t}})}{\text{std}(\t
 <h3 data-number="5.4" class="anchored" data-anchor-id="pnl-over-time"><span class="header-section-number">5.4</span> PnL Over Time</h3>
 <iframe src="./images/cumulative_pnl.html" width="100%" height="500" frameborder="0">
 </iframe>
-
-
 </section>
+</section>
+<section id="reflection-and-future-work" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="reflection-and-future-work"><span class="header-section-number">6</span> Reflection and Future Work</h2>
+<ol type="1">
+<li>TSLA &amp; RIVN may not be a good trading pair since the long-term relationship are fragile nor statistically significant, despite their connection as EV manufacturers.</li>
+<li>We attempted to capture short-term cointegration and spread deviation, but backtest results show the strategy suffers from false positives (expect converge but they keep diverge).</li>
+<li>Relying on only one pair limits trading opportunities. In the future we plan to extend our trading pairs to other EV companies (LCID, BYDDF) or traditional automakers transitioning to EV (F, GM).</li>
+</ol>
+</section>
+<section id="ols-regression-results-of-the-whole-trading-period" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="ols-regression-results-of-the-whole-trading-period"><span class="header-section-number">7</span> OLS Regression Results of the whole trading period</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>                            <span class="ex">OLS</span> Regression Results                            </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">==============================================================================</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Dep.</span> Variable:                  close   R-squared:                       0.029</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Model:</span>                            OLS   Adj. R-squared:                  0.027</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Method:</span>                 Least Squares   F-statistic:                     22.17</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Date:</span>                Thu, 17 Apr 2025   Prob <span class="er">(</span><span class="ex">F-statistic</span><span class="kw">)</span><span class="bu">:</span>           2.97e-06</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Time:</span>                        10:13:11   Log-Likelihood:                <span class="at">-371.88</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">No.</span> Observations:                 753   AIC:                             747.8</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Df</span> Residuals:                     751   BIC:                             757.0</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ex">Df</span> Model:                           1                                         </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Covariance</span> Type:            nonrobust                                         </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ex">==============================================================================</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                 <span class="ex">coef</span>    std err          t      P<span class="op">&gt;|</span>t<span class="kw">|</span>      <span class="ex">[0.025</span>      0.975]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ex">------------------------------------------------------------------------------</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ex">const</span>          1.4184      0.305      4.652      0.000       0.820       2.017</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ex">close</span>          0.2638      0.056      4.709      0.000       0.154       0.374</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ex">==============================================================================</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ex">Omnibus:</span>                      397.076   Durbin-Watson:                   0.013</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ex">Prob</span><span class="er">(</span><span class="ex">Omnibus</span><span class="kw">)</span><span class="bu">:</span>                  0.000   Jarque-Bera <span class="er">(</span><span class="ex">JB</span><span class="kw">)</span><span class="bu">:</span>               53.740</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ex">Skew:</span>                           0.306   Prob<span class="er">(</span><span class="ex">JB</span><span class="kw">)</span><span class="bu">:</span>                     2.14e-12</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ex">Kurtosis:</span>                       1.843   Cond. No.                         119.</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ex">==============================================================================</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ex">Notes:</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ex">[1]</span> Standard Errors assume that the covariance matrix of the errors is correctly specified.</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ex">Cointegration</span> test result:</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="ex">========================================</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ex">Test</span> Statistic: <span class="at">-2.4426285226999096</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="ex">p-value:</span> 0.30493998944930345</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+
 </section>
 
 </main> <!-- /main -->

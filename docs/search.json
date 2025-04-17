@@ -18,21 +18,21 @@
     "href": "about.html",
     "title": "Strategy",
     "section": "",
-    "text": "Trading Setup\n\n\n\n\nData Frequency: Daily resolution\nHedge Ratio Update: Every two weeks\nCointegration Test Frequency: Every two weeks\nTrading Session Timeout: 10 days"
+    "text": "Trading Setup\n\n\n\n\nTrading Time: Past three years\nData Frequency: Daily resolution\nHedge Ratio Window: 20 days\nCointegration Test Window: 60 days\nTrading Session Timeout: 10 days"
   },
   {
     "objectID": "about.html#pair-trading-strategy-overview",
     "href": "about.html#pair-trading-strategy-overview",
     "title": "Strategy",
     "section": "",
-    "text": "Trading Setup\n\n\n\n\nData Frequency: Daily resolution\nHedge Ratio Update: Every two weeks\nCointegration Test Frequency: Every two weeks\nTrading Session Timeout: 10 days"
+    "text": "Trading Setup\n\n\n\n\nTrading Time: Past three years\nData Frequency: Daily resolution\nHedge Ratio Window: 20 days\nCointegration Test Window: 60 days\nTrading Session Timeout: 10 days"
   },
   {
     "objectID": "about.html#strategy-logic",
     "href": "about.html#strategy-logic",
     "title": "Strategy",
     "section": "2 Strategy Logic",
-    "text": "2 Strategy Logic\n\nCalculate Hedge Ratio Compute the hedge ratio \\(\\beta_i\\) based on the past 20 days of log prices: \\[\n\\beta_i = \\frac{\\text{Cov}(\\log P_{\\text{RIVN}}, \\log P_{\\text{TSLA}})}{\\text{Var}(\\log P_{\\text{TSLA}})}\n\\] Then using hedge ratio to hedge a notional value of $10000 position of both stocks\nCompute Spread and Z-Score \\[\n\\text{Spread}_t = \\log(P_{\\text{RIVN}, t}) - \\beta_i \\cdot \\log(P_{\\text{TSLA}, t}) \\\\\nz_t = \\frac{\\text{Spread}_t-\\text{mean}({\\text{Spread}_{t-20:t}})}{\\text{std}(\\text{Spread}_{t-20:t})}\n\\]\nCointegration Test Test 60-day rolling window of log prices for cointegration using the ADF test.\nZ-Score Based Trading Rules If cointegration is statistically significant (p&lt;0.05):\n\nEntry: if \\(Z &gt; 2\\) or \\(Z &lt; -2\\)\nExit: if \\(|Z| &lt; 0.5\\)\nStop Loss: if \\(|Z| &gt; 3\\)\n\nTrading Session Timeout Exit trades when:\n\ntrade lasting over 10 days, and\n\\(|Z| &gt; 3\\) (not reverting) or (p&gt;0.05) (cointegration fails)"
+    "text": "2 Strategy Logic\n\nCalculate Hedge Ratio Compute the hedge ratio \\(\\beta_i\\) based on the past 20 days of log prices: \\[\n\\beta_i = \\frac{\\text{Cov}(\\log P_{\\text{RIVN}}, \\log P_{\\text{TSLA}})}{\\text{Var}(\\log P_{\\text{TSLA}})}\n\\] Then using hedge ratio to hedge a notional value of $10000 position of both stocks\nCompute Spread and Z-Score \\[\n\\text{Spread}_t = \\log(P_{\\text{RIVN}, t}) - \\beta_i \\cdot \\log(P_{\\text{TSLA}, t})\\\\\n\\] \\[\nz_t = \\frac{\\text{Spread}_t-\\text{mean}({\\text{Spread}_{t-20:t}})}{\\text{std}(\\text{Spread}_{t-20:t})}\n\\]\nCointegration Test Test 60-day rolling window of log prices for cointegration using the ADF test.\nZ-Score Based Trading Rules If cointegration is statistically significant \\(p&lt;0.05\\):\n\nEntry: if \\(Z &gt; 2\\) or \\(Z &lt; -2\\)\nExit: if \\(|Z| &lt; 0.5\\)\nStop Loss: if \\(|Z| &gt; 3\\)\n\nTrading Session Timeout Exit trades when:\n\ntrade lasting over 10 days, and\n\\(|Z| &gt; 3\\) (not reverting) or \\(p&gt;0.05\\) (cointegration fails)"
   },
   {
     "objectID": "about.html#blotter",
@@ -54,5 +54,19 @@
     "title": "Strategy",
     "section": "5 Graphs",
     "text": "5 Graphs\n\n5.1 TSLA vs. RIVN Stock Log Prices\n\n\n\n\n5.2 Rolling ADF Test on Spread (window=60)\n\n\n\n\n5.3 Spread and Trade Entry/Exit Points\n\n\n\n\n5.4 PnL Over Time"
+  },
+  {
+    "objectID": "about.html#reflection-and-future-work",
+    "href": "about.html#reflection-and-future-work",
+    "title": "Strategy",
+    "section": "6 Reflection and Future Work",
+    "text": "6 Reflection and Future Work\n\nTSLA & RIVN may not be a good trading pair since the long-term relationship are fragile nor statistically significant, despite their connection as EV manufacturers.\nWe attempted to capture short-term cointegration and spread deviation, but backtest results show the strategy suffers from false positives (expect converge but they keep diverge).\nRelying on only one pair limits trading opportunities. In the future we plan to extend our trading pairs to other EV companies (LCID, BYDDF) or traditional automakers transitioning to EV (F, GM)."
+  },
+  {
+    "objectID": "about.html#ols-regression-results-of-the-whole-trading-period",
+    "href": "about.html#ols-regression-results-of-the-whole-trading-period",
+    "title": "Strategy",
+    "section": "7 OLS Regression Results of the whole trading period",
+    "text": "7 OLS Regression Results of the whole trading period\n                            OLS Regression Results                            \n==============================================================================\nDep. Variable:                  close   R-squared:                       0.029\nModel:                            OLS   Adj. R-squared:                  0.027\nMethod:                 Least Squares   F-statistic:                     22.17\nDate:                Thu, 17 Apr 2025   Prob (F-statistic):           2.97e-06\nTime:                        10:13:11   Log-Likelihood:                -371.88\nNo. Observations:                 753   AIC:                             747.8\nDf Residuals:                     751   BIC:                             757.0\nDf Model:                           1                                         \nCovariance Type:            nonrobust                                         \n==============================================================================\n                 coef    std err          t      P&gt;|t|      [0.025      0.975]\n------------------------------------------------------------------------------\nconst          1.4184      0.305      4.652      0.000       0.820       2.017\nclose          0.2638      0.056      4.709      0.000       0.154       0.374\n==============================================================================\nOmnibus:                      397.076   Durbin-Watson:                   0.013\nProb(Omnibus):                  0.000   Jarque-Bera (JB):               53.740\nSkew:                           0.306   Prob(JB):                     2.14e-12\nKurtosis:                       1.843   Cond. No.                         119.\n==============================================================================\n\nNotes:\n[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\nCointegration test result:\n========================================\nTest Statistic: -2.4426285226999096\np-value: 0.30493998944930345"
   }
 ]

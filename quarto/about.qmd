@@ -12,9 +12,10 @@ format:
 ## Pair Trading Strategy Overview
 
 ::: {.callout-note title="Trading Setup"}
+- **Trading Time**: Past three years
 - **Data Frequency**: Daily resolution
-- **Hedge Ratio Update**: Every two weeks
-- **Cointegration Test Frequency**: Every two weeks
+- **Hedge Ratio Window**: 20 days
+- **Cointegration Test Window**: 60 days
 - **Trading Session Timeout**: 10 days
 :::
 
@@ -31,7 +32,9 @@ format:
 
 2. **Compute Spread and Z-Score**
    $$
-   \text{Spread}_t = \log(P_{\text{RIVN}, t}) - \beta_i \cdot \log(P_{\text{TSLA}, t}) \\
+   \text{Spread}_t = \log(P_{\text{RIVN}, t}) - \beta_i \cdot \log(P_{\text{TSLA}, t})\\
+   $$
+   $$
    z_t = \frac{\text{Spread}_t-\text{mean}({\text{Spread}_{t-20:t}})}{\text{std}(\text{Spread}_{t-20:t})}
    $$
 
@@ -39,7 +42,7 @@ format:
    Test 60-day rolling window of log prices for cointegration using the ADF test.
 
 4. **Z-Score Based Trading Rules**
-   If cointegration is statistically significant (p<0.05):
+   If cointegration is statistically significant $p<0.05$:
    - **Entry**: if $Z > 2$ or $Z < -2$
    - **Exit**: if $|Z| < 0.5$
    - **Stop Loss**: if $|Z| > 3$
@@ -47,7 +50,7 @@ format:
 5. **Trading Session Timeout**
    Exit trades when:
    - trade lasting over 10 days, and
-   - $|Z| > 3$ (not reverting) or (p>0.05) (cointegration fails)
+   - $|Z| > 3$ (not reverting) or $p>0.05$ (cointegration fails)
 
 
 ## Blotter
@@ -74,3 +77,42 @@ format:
 <iframe src="/images/cumulative_pnl.html" width="100%" height="500" frameborder="0"></iframe>
 
 
+## Reflection and Future Work
+
+1. TSLA & RIVN may not be a good trading pair since the long-term relationship are fragile nor statistically significant, despite their connection as EV manufacturers.
+2. We attempted to capture short-term cointegration and spread deviation, but backtest results show the strategy suffers from false positives (expect converge but they keep diverge).
+3. Relying on only one pair limits trading opportunities. In the future we plan to extend our trading pairs to other EV companies (LCID, BYDDF) or traditional automakers transitioning to EV (F, GM).
+
+
+## OLS Regression Results of the whole trading period
+```bash
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  close   R-squared:                       0.029
+Model:                            OLS   Adj. R-squared:                  0.027
+Method:                 Least Squares   F-statistic:                     22.17
+Date:                Thu, 17 Apr 2025   Prob (F-statistic):           2.97e-06
+Time:                        10:13:11   Log-Likelihood:                -371.88
+No. Observations:                 753   AIC:                             747.8
+Df Residuals:                     751   BIC:                             757.0
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          1.4184      0.305      4.652      0.000       0.820       2.017
+close          0.2638      0.056      4.709      0.000       0.154       0.374
+==============================================================================
+Omnibus:                      397.076   Durbin-Watson:                   0.013
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               53.740
+Skew:                           0.306   Prob(JB):                     2.14e-12
+Kurtosis:                       1.843   Cond. No.                         119.
+==============================================================================
+
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+Cointegration test result:
+========================================
+Test Statistic: -2.4426285226999096
+p-value: 0.30493998944930345
+```
