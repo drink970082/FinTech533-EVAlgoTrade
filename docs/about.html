@@ -205,7 +205,7 @@ Trading Setup
 <ol type="1">
 <li><p><strong>Calculate Hedge Ratio</strong> Compute the hedge ratio <span class="math inline">\(\beta_i\)</span> based on the past 20 days of log prices: <span class="math display">\[
 \beta_i = \frac{\text{Cov}(\log P_{\text{RIVN}}, \log P_{\text{TSLA}})}{\text{Var}(\log P_{\text{TSLA}})}
-\]</span></p></li>
+\]</span> Then using hedge ratio to hedge a notional value of $10000 position of both stocks</p></li>
 <li><p><strong>Compute Spread and Z-Score</strong> <span class="math display">\[
 \text{Spread}_t = \log(P_{\text{RIVN}, t}) - \beta_i \cdot \log(P_{\text{TSLA}, t}) \\
 z_t = \frac{\text{Spread}_t-\text{mean}({\text{Spread}_{t-20:t}})}{\text{std}(\text{Spread}_{t-20:t})}
@@ -217,7 +217,11 @@ z_t = \frac{\text{Spread}_t-\text{mean}({\text{Spread}_{t-20:t}})}{\text{std}(\t
 <li><strong>Exit</strong>: if <span class="math inline">\(|Z| &lt; 0.5\)</span></li>
 <li><strong>Stop Loss</strong>: if <span class="math inline">\(|Z| &gt; 3\)</span></li>
 </ul></li>
-<li><p><strong>Trading Session Timeout</strong> Force close any open positions after 10 trading days.</p></li>
+<li><p><strong>Trading Session Timeout</strong> Exit trades when:</p>
+<ul>
+<li>trade lasting over 10 days, and</li>
+<li><span class="math inline">\(|Z| &gt; 3\)</span> (not reverting) or (p&gt;0.05) (cointegration fails)</li>
+</ul></li>
 </ol>
 </section>
 <section id="blotter" class="level2" data-number="3">

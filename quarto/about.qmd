@@ -27,6 +27,7 @@ format:
    $$
    \beta_i = \frac{\text{Cov}(\log P_{\text{RIVN}}, \log P_{\text{TSLA}})}{\text{Var}(\log P_{\text{TSLA}})}
    $$
+   Then using hedge ratio to hedge a notional value of $10000 position of both stocks
 
 2. **Compute Spread and Z-Score**
    $$
@@ -44,7 +45,9 @@ format:
    - **Stop Loss**: if $|Z| > 3$
 
 5. **Trading Session Timeout**
-   Force close any open positions after 10 trading days.
+   Exit trades when:
+   - trade lasting over 10 days, and
+   - $|Z| > 3$ (not reverting) or (p>0.05) (cointegration fails)
 
 
 ## Blotter
