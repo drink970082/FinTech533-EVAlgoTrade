@@ -8,91 +8,23 @@ format:
     theme: cosmo
 ---
 
+## Concept
 
-## Pair Trading Strategy Overview
+TSLA and RIVN both sit under the "EV manufacturer" label, but let's be honest—are they really that similar?  
+RIVN is pretty straightforward - a pure EV company.  
+But what about TSLA? Considering the "X-factor" i.e. Elon Musk, will TSLA still be a pure EV manufacturer?
 
-::: {.callout-note title="Trading Setup"}
-- **Trading Time**: Past three years
-- **Data Frequency**: Daily resolution
-- **Hedge Ratio Window**: 20 days
-- **Cointegration Test Window**: 60 days
-- **Trading Session Timeout**: 10 days
-:::
+So, what is the opportunity?  
 
----
-
-## Strategy Logic
-
-1. **Calculate Hedge Ratio**
-   Compute the hedge ratio $\beta_i$ based on the past 20 days of log prices:
-   $$
-   \beta_i = \frac{\text{Cov}(\log P_{\text{RIVN}}, \log P_{\text{TSLA}})}{\text{Var}(\log P_{\text{TSLA}})}
-   $$
-   Then using hedge ratio to hedge a notional value of $10000 position of both stocks
-
-2. **Compute Spread and Z-Score**
-   $$
-   \text{Spread}_t = \log(P_{\text{RIVN}, t}) - \beta_i \cdot \log(P_{\text{TSLA}, t})\\
-   $$
-   $$
-   z_t = \frac{\text{Spread}_t-\text{mean}({\text{Spread}_{t-20:t}})}{\text{std}(\text{Spread}_{t-20:t})}
-   $$
-
-3. **Cointegration Test**
-   Test 60-day rolling window of log prices for cointegration using the ADF test.
-
-4. **Z-Score Based Trading Rules**
-   If cointegration is statistically significant $p<0.05$:
-   - **Entry**: if $Z > 2$ or $Z < -2$
-   - **Exit**: if $|Z| < 0.5$
-   - **Stop Loss**: if $|Z| > 3$
-
-5. **Trading Session Timeout**
-   Exit trades when:
-   - trade lasting over 10 days, and
-   - $|Z| > 3$ (not reverting) or $p>0.05$ (cointegration fails)
-
-
-## Blotter
-
-<iframe src="/dataframe/blotter.html" width="100%" height="500" frameborder="0"></iframe>
-
-## Ledger
-
-<iframe src="/dataframe/ledger.html" width="100%" height="500" frameborder="0"></iframe>
-
-
-## Graphs
-
-### TSLA vs. RIVN Stock Log Prices
-<iframe src="/images/log_price.html" width="100%" height="500" frameborder="0"></iframe>
-
-### Rolling ADF Test on Spread (window=60)
-<iframe src="/images/adf_test.html" width="100%" height="500" frameborder="0"></iframe>
-
-### Spread and Trade Entry/Exit Points
-<iframe src="/images/spread.html" width="100%" height="500" frameborder="0"></iframe>
-
-### PnL Over Time
-<iframe src="/images/cumulative_pnl.html" width="100%" height="500" frameborder="0"></iframe>
-
-
-## Reflection and Future Work
-
-1. TSLA & RIVN may not be a good trading pair since the long-term relationship are fragile nor statistically significant, despite their connection as EV manufacturers.
-2. We attempted to capture short-term cointegration and spread deviation, but backtest results show the strategy suffers from false positives (expect converge but they keep diverge).
-3. Relying on only one pair limits trading opportunities. In the future we plan to extend our trading pairs to other EV companies (LCID, BYDDF) or traditional automakers transitioning to EV (F, GM).
-
-
-## OLS Regression Results of the whole trading period
+Look at the statistics from past three years:
 ```bash
                             OLS Regression Results                            
 ==============================================================================
 Dep. Variable:                  close   R-squared:                       0.029
 Model:                            OLS   Adj. R-squared:                  0.027
 Method:                 Least Squares   F-statistic:                     22.17
-Date:                Thu, 17 Apr 2025   Prob (F-statistic):           2.97e-06
-Time:                        10:13:11   Log-Likelihood:                -371.88
+Date:                                   Prob (F-statistic):           2.97e-06
+Time:                                   Log-Likelihood:                -371.88
 No. Observations:                 753   AIC:                             747.8
 Df Residuals:                     751   BIC:                             757.0
 Df Model:                           1                                         
@@ -111,8 +43,120 @@ Kurtosis:                       1.843   Cond. No.                         119.
 
 Notes:
 [1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+
 Cointegration test result:
 ========================================
 Test Statistic: -2.4426285226999096
 p-value: 0.30493998944930345
 ```
+TSLA and RIVN are almost not related! Can we use this to do a "reversed" pair trading?  
+
+Our strategy concept is as follows:
+
+1. Since they are both EV producers, there's some short-term relationship that we can capture.
+2. Once they are close-related, we bet their spread to diverge. Here we long TSLA and short RIVN because of "Elon factor".
+3. We exit if the relationship still exists for a long time, or waiting them to diverge and take the profit.
+
+## Pair Trading Strategy Overview
+
+::: {.callout-note title="Trading Setup"}
+- **Trading Time**: Past three years
+- **Data Frequency**: Daily resolution
+- **Hedge Ratio Window**: 20 days
+- **Cointegration Test Window**: 60 days
+- **Trading Session Timeout**: 20 days
+:::
+
+---
+
+## Strategy Logic
+
+1. **Calculate Hedge Ratio**  
+   Compute the hedge ratio $\beta_i$ based on the past 20 days of log prices:
+   $$
+   \beta_i = \frac{\text{Cov}(\log P_{\text{RIVN}}, \log P_{\text{TSLA}})}{\text{Var}(\log P_{\text{TSLA}})}
+   $$
+   Then using hedge ratio to hold a notional value of $10000 position of both stocks
+
+2. **Compute Spread and Z-Score**
+   $$
+   \text{Spread}_t = \log(P_{\text{RIVN}, t}) - \beta_i \cdot \log(P_{\text{TSLA}, t})\\
+   $$
+   $$
+   z_t = \frac{\text{Spread}_t-\text{mean}({\text{Spread}_{t-20:t}})}{\text{std}(\text{Spread}_{t-20:t})}
+   $$
+
+3. **Cointegration Test**  
+   Test 60-day rolling window of log prices for cointegration using the ADF test.
+
+4. **Z-Score Based Trading Rules**  
+   If cointegration is statistically significant $p<0.05$:
+   - **Entry**: if $|Z| < 1$
+   - **Exit**: if $|Z| > 2.5$
+
+   Here we long TSLA and short RIVN.
+
+5. **Trading Session Timeout**  
+   Exit trades when:
+   - trade lasting over 20 days, and
+   - $|Z| < 1$ and $p<0.05$ (still reverting) 
+
+
+## Blotter
+
+<iframe src="/dataframe/blotter.html" width="100%" height="500" frameborder="0"></iframe>
+
+## Ledger
+
+<iframe src="/dataframe/ledger.html" width="100%" height="500" frameborder="0"></iframe>
+
+## Graphs
+
+### TSLA vs. RIVN Stock Log Prices
+<iframe src="/images/log_price.html" width="100%" height="500" frameborder="0"></iframe>
+
+### Rolling ADF Test on Spread (window=60)
+<iframe src="/images/adf_test.html" width="100%" height="500" frameborder="0"></iframe>
+
+### PnL Over Time
+<iframe src="/images/cumulative_pnl.html" width="100%" height="500" frameborder="0"></iframe>
+
+### Strategy Realized Returns Sensitivity
+
+#### strategy vs long TSLA
+<iframe src="/images/Return_sensitivity_TSLA.html" width="100%" height="500" frameborder="0"></iframe>
+
+#### strategy vs short RIVN
+<iframe src="/images/Return_sensitivity_RIVN.html" width="100%" height="500" frameborder="0"></iframe>
+
+#### Summary
+Notice that most of our returns come from $\alpha$, not riding each asset's movement.  
+We reaches almost market neutral regarding RIVN moves, and a moderate benefit when TSLA rises.  
+This shows our strategy controlled directional exposure with alpha-driven returns, and we capture divergence opportunities effectively.
+
+## Strategy Performance Summary
+
+Here's the performance overview of the **TSLA-RIVN Divergence Strategy** over the past 3 years:
+
+| Metric                          | Value         |
+|---------------------------------|---------------|
+| **Number of Trades**            | 14            |
+| **Average Return per Trade**    | 6.79%         |
+| **Volatility of Returns**       | 15.32%        |
+| **Geometric Mean Return/Trade** | 5.93%         |
+| **Sharpe Ratio (per trade)**    | 0.44          |
+| **Average Trades per Year**     | 4.67          |
+| **Average Holding Period**      | 26.93 days    |
+| **Annualized Return**           | 71.38%        |
+| **Annualized Volatility**       | 46.85%        |
+| **Annualized Sharpe Ratio**     | 1.52          |
+| **Total PnL**                   | \$12,902.38   |
+
+---
+
+## Reflection and Future Work
+
+1. Despite connection as EV manufacturers, TSLA isn't just an EV company. Thanks to Elon Musk, TSLA is a tech powerhouse with a strong personality.
+2. Flipping the traditional pair trading strategy approaches to bet the divergence makes profit. At the end of the day, TSLA and RIVN will keep moving to their own beats, and we'll be there to capture value every time the market forgets that.
+3. While the strategy delivers strong returns, its relatively high per-trade volatility highlights the importance of disciplined risk management and patience in waiting for optimal setups.
+4. Relying on only one pair limits trading opportunities. In the future we plan to extend our trading pairs to other EV companies (LCID, BYDDF) or traditional automakers transitioning to EV (F, GM).

@@ -182,13 +182,14 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul class="collapse">
-  <li><a href="#pair-trading-strategy-overview" id="toc-pair-trading-strategy-overview" class="nav-link active" data-scroll-target="#pair-trading-strategy-overview"><span class="header-section-number">1</span> Pair Trading Strategy Overview</a></li>
-  <li><a href="#strategy-logic" id="toc-strategy-logic" class="nav-link" data-scroll-target="#strategy-logic"><span class="header-section-number">2</span> Strategy Logic</a></li>
-  <li><a href="#blotter" id="toc-blotter" class="nav-link" data-scroll-target="#blotter"><span class="header-section-number">3</span> Blotter</a></li>
-  <li><a href="#ledger" id="toc-ledger" class="nav-link" data-scroll-target="#ledger"><span class="header-section-number">4</span> Ledger</a></li>
-  <li><a href="#graphs" id="toc-graphs" class="nav-link" data-scroll-target="#graphs"><span class="header-section-number">5</span> Graphs</a></li>
-  <li><a href="#reflection-and-future-work" id="toc-reflection-and-future-work" class="nav-link" data-scroll-target="#reflection-and-future-work"><span class="header-section-number">6</span> Reflection and Future Work</a></li>
-  <li><a href="#ols-regression-results-of-the-whole-trading-period" id="toc-ols-regression-results-of-the-whole-trading-period" class="nav-link" data-scroll-target="#ols-regression-results-of-the-whole-trading-period"><span class="header-section-number">7</span> OLS Regression Results of the whole trading period</a></li>
+  <li><a href="#concept" id="toc-concept" class="nav-link active" data-scroll-target="#concept"><span class="header-section-number">1</span> Concept</a></li>
+  <li><a href="#pair-trading-strategy-overview" id="toc-pair-trading-strategy-overview" class="nav-link" data-scroll-target="#pair-trading-strategy-overview"><span class="header-section-number">2</span> Pair Trading Strategy Overview</a></li>
+  <li><a href="#strategy-logic" id="toc-strategy-logic" class="nav-link" data-scroll-target="#strategy-logic"><span class="header-section-number">3</span> Strategy Logic</a></li>
+  <li><a href="#blotter" id="toc-blotter" class="nav-link" data-scroll-target="#blotter"><span class="header-section-number">4</span> Blotter</a></li>
+  <li><a href="#ledger" id="toc-ledger" class="nav-link" data-scroll-target="#ledger"><span class="header-section-number">5</span> Ledger</a></li>
+  <li><a href="#graphs" id="toc-graphs" class="nav-link" data-scroll-target="#graphs"><span class="header-section-number">6</span> Graphs</a></li>
+  <li><a href="#strategy-performance-summary" id="toc-strategy-performance-summary" class="nav-link" data-scroll-target="#strategy-performance-summary"><span class="header-section-number">7</span> Strategy Performance Summary</a></li>
+  <li><a href="#reflection-and-future-work" id="toc-reflection-and-future-work" class="nav-link" data-scroll-target="#reflection-and-future-work"><span class="header-section-number">8</span> Reflection and Future Work</a></li>
   </ul>
 </nav>
     </div>
@@ -214,104 +215,20 @@ window.Quarto = {
 </header>
 
 
-<section id="pair-trading-strategy-overview" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="pair-trading-strategy-overview"><span class="header-section-number">1</span> Pair Trading Strategy Overview</h2>
-<div class="callout callout-style-default callout-note callout-titled" title="Trading Setup">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Trading Setup
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><strong>Trading Time</strong>: Past three years</li>
-<li><strong>Data Frequency</strong>: Daily resolution</li>
-<li><strong>Hedge Ratio Window</strong>: 20 days</li>
-<li><strong>Cointegration Test Window</strong>: 60 days</li>
-<li><strong>Trading Session Timeout</strong>: 10 days</li>
-</ul>
-</div>
-</div>
-<hr>
-</section>
-<section id="strategy-logic" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="strategy-logic"><span class="header-section-number">2</span> Strategy Logic</h2>
-<ol type="1">
-<li><p><strong>Calculate Hedge Ratio</strong> Compute the hedge ratio <span class="math inline">\(\beta_i\)</span> based on the past 20 days of log prices: <span class="math display">\[
-\beta_i = \frac{\text{Cov}(\log P_{\text{RIVN}}, \log P_{\text{TSLA}})}{\text{Var}(\log P_{\text{TSLA}})}
-\]</span> Then using hedge ratio to hedge a notional value of $10000 position of both stocks</p></li>
-<li><p><strong>Compute Spread and Z-Score</strong> <span class="math display">\[
-\text{Spread}_t = \log(P_{\text{RIVN}, t}) - \beta_i \cdot \log(P_{\text{TSLA}, t})\\
-\]</span> <span class="math display">\[
-z_t = \frac{\text{Spread}_t-\text{mean}({\text{Spread}_{t-20:t}})}{\text{std}(\text{Spread}_{t-20:t})}
-\]</span></p></li>
-<li><p><strong>Cointegration Test</strong> Test 60-day rolling window of log prices for cointegration using the ADF test.</p></li>
-<li><p><strong>Z-Score Based Trading Rules</strong> If cointegration is statistically significant <span class="math inline">\(p&lt;0.05\)</span>:</p>
-<ul>
-<li><strong>Entry</strong>: if <span class="math inline">\(Z &gt; 2\)</span> or <span class="math inline">\(Z &lt; -2\)</span></li>
-<li><strong>Exit</strong>: if <span class="math inline">\(|Z| &lt; 0.5\)</span></li>
-<li><strong>Stop Loss</strong>: if <span class="math inline">\(|Z| &gt; 3\)</span></li>
-</ul></li>
-<li><p><strong>Trading Session Timeout</strong> Exit trades when:</p>
-<ul>
-<li>trade lasting over 10 days, and</li>
-<li><span class="math inline">\(|Z| &gt; 3\)</span> (not reverting) or <span class="math inline">\(p&gt;0.05\)</span> (cointegration fails)</li>
-</ul></li>
-</ol>
-</section>
-<section id="blotter" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="blotter"><span class="header-section-number">3</span> Blotter</h2>
-<iframe src="./dataframe/blotter.html" width="100%" height="500" frameborder="0">
-</iframe>
-</section>
-<section id="ledger" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="ledger"><span class="header-section-number">4</span> Ledger</h2>
-<iframe src="./dataframe/ledger.html" width="100%" height="500" frameborder="0">
-</iframe>
-</section>
-<section id="graphs" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="graphs"><span class="header-section-number">5</span> Graphs</h2>
-<section id="tsla-vs.-rivn-stock-log-prices" class="level3" data-number="5.1">
-<h3 data-number="5.1" class="anchored" data-anchor-id="tsla-vs.-rivn-stock-log-prices"><span class="header-section-number">5.1</span> TSLA vs.&nbsp;RIVN Stock Log Prices</h3>
-<iframe src="./images/log_price.html" width="100%" height="500" frameborder="0">
-</iframe>
-</section>
-<section id="rolling-adf-test-on-spread-window60" class="level3" data-number="5.2">
-<h3 data-number="5.2" class="anchored" data-anchor-id="rolling-adf-test-on-spread-window60"><span class="header-section-number">5.2</span> Rolling ADF Test on Spread (window=60)</h3>
-<iframe src="./images/adf_test.html" width="100%" height="500" frameborder="0">
-</iframe>
-</section>
-<section id="spread-and-trade-entryexit-points" class="level3" data-number="5.3">
-<h3 data-number="5.3" class="anchored" data-anchor-id="spread-and-trade-entryexit-points"><span class="header-section-number">5.3</span> Spread and Trade Entry/Exit Points</h3>
-<iframe src="./images/spread.html" width="100%" height="500" frameborder="0">
-</iframe>
-</section>
-<section id="pnl-over-time" class="level3" data-number="5.4">
-<h3 data-number="5.4" class="anchored" data-anchor-id="pnl-over-time"><span class="header-section-number">5.4</span> PnL Over Time</h3>
-<iframe src="./images/cumulative_pnl.html" width="100%" height="500" frameborder="0">
-</iframe>
-</section>
-</section>
-<section id="reflection-and-future-work" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="reflection-and-future-work"><span class="header-section-number">6</span> Reflection and Future Work</h2>
-<ol type="1">
-<li>TSLA &amp; RIVN may not be a good trading pair since the long-term relationship are fragile nor statistically significant, despite their connection as EV manufacturers.</li>
-<li>We attempted to capture short-term cointegration and spread deviation, but backtest results show the strategy suffers from false positives (expect converge but they keep diverge).</li>
-<li>Relying on only one pair limits trading opportunities. In the future we plan to extend our trading pairs to other EV companies (LCID, BYDDF) or traditional automakers transitioning to EV (F, GM).</li>
-</ol>
-</section>
-<section id="ols-regression-results-of-the-whole-trading-period" class="level2" data-number="7">
-<h2 data-number="7" class="anchored" data-anchor-id="ols-regression-results-of-the-whole-trading-period"><span class="header-section-number">7</span> OLS Regression Results of the whole trading period</h2>
+<section id="concept" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="concept"><span class="header-section-number">1</span> Concept</h2>
+<p>TSLA and RIVN both sit under the “EV manufacturer” label, but let’s be honest—are they really that similar?<br>
+RIVN is pretty straightforward - a pure EV company.<br>
+But what about TSLA? Considering the “X-factor” i.e.&nbsp;Elon Musk, will TSLA still be a pure EV manufacturer?</p>
+<p>So, what is the opportunity?</p>
+<p>Look at the statistics from past three years:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>                            <span class="ex">OLS</span> Regression Results                            </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">==============================================================================</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Dep.</span> Variable:                  close   R-squared:                       0.029</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Model:</span>                            OLS   Adj. R-squared:                  0.027</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Method:</span>                 Least Squares   F-statistic:                     22.17</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Date:</span>                Thu, 17 Apr 2025   Prob <span class="er">(</span><span class="ex">F-statistic</span><span class="kw">)</span><span class="bu">:</span>           2.97e-06</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Time:</span>                        10:13:11   Log-Likelihood:                <span class="at">-371.88</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Date:</span>                                   Prob <span class="er">(</span><span class="ex">F-statistic</span><span class="kw">)</span><span class="bu">:</span>           2.97e-06</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Time:</span>                                   Log-Likelihood:                <span class="at">-371.88</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ex">No.</span> Observations:                 753   AIC:                             747.8</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Df</span> Residuals:                     751   BIC:                             757.0</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ex">Df</span> Model:                           1                                         </span>
@@ -330,10 +247,185 @@ z_t = \frac{\text{Spread}_t-\text{mean}({\text{Spread}_{t-20:t}})}{\text{std}(\t
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ex">Notes:</span></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ex">[1]</span> Standard Errors assume that the covariance matrix of the errors is correctly specified.</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ex">Cointegration</span> test result:</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="ex">========================================</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ex">Test</span> Statistic: <span class="at">-2.4426285226999096</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="ex">p-value:</span> 0.30493998944930345</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="ex">Cointegration</span> test result:</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ex">========================================</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="ex">Test</span> Statistic: <span class="at">-2.4426285226999096</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="ex">p-value:</span> 0.30493998944930345</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>TSLA and RIVN are almost not related! Can we use this to do a “reversed” pair trading?</p>
+<p>Our strategy concept is as follows:</p>
+<ol type="1">
+<li>Since they are both EV producers, there’s some short-term relationship that we can capture.</li>
+<li>Once they are close-related, we bet their spread to diverge. Here we long TSLA and short RIVN because of “Elon factor”.</li>
+<li>We exit if the relationship still exists for a long time, or waiting them to diverge and take the profit.</li>
+</ol>
+</section>
+<section id="pair-trading-strategy-overview" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="pair-trading-strategy-overview"><span class="header-section-number">2</span> Pair Trading Strategy Overview</h2>
+<div class="callout callout-style-default callout-note callout-titled" title="Trading Setup">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Trading Setup
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Trading Time</strong>: Past three years</li>
+<li><strong>Data Frequency</strong>: Daily resolution</li>
+<li><strong>Hedge Ratio Window</strong>: 20 days</li>
+<li><strong>Cointegration Test Window</strong>: 60 days</li>
+<li><strong>Trading Session Timeout</strong>: 20 days</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+<section id="strategy-logic" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="strategy-logic"><span class="header-section-number">3</span> Strategy Logic</h2>
+<ol type="1">
+<li><p><strong>Calculate Hedge Ratio</strong><br>
+Compute the hedge ratio <span class="math inline">\(\beta_i\)</span> based on the past 20 days of log prices: <span class="math display">\[
+\beta_i = \frac{\text{Cov}(\log P_{\text{RIVN}}, \log P_{\text{TSLA}})}{\text{Var}(\log P_{\text{TSLA}})}
+\]</span> Then using hedge ratio to hold a notional value of $10000 position of both stocks</p></li>
+<li><p><strong>Compute Spread and Z-Score</strong> <span class="math display">\[
+\text{Spread}_t = \log(P_{\text{RIVN}, t}) - \beta_i \cdot \log(P_{\text{TSLA}, t})\\
+\]</span> <span class="math display">\[
+z_t = \frac{\text{Spread}_t-\text{mean}({\text{Spread}_{t-20:t}})}{\text{std}(\text{Spread}_{t-20:t})}
+\]</span></p></li>
+<li><p><strong>Cointegration Test</strong><br>
+Test 60-day rolling window of log prices for cointegration using the ADF test.</p></li>
+<li><p><strong>Z-Score Based Trading Rules</strong><br>
+If cointegration is statistically significant <span class="math inline">\(p&lt;0.05\)</span>:</p>
+<ul>
+<li><strong>Entry</strong>: if <span class="math inline">\(|Z| &lt; 1\)</span></li>
+<li><strong>Exit</strong>: if <span class="math inline">\(|Z| &gt; 2.5\)</span></li>
+</ul>
+<p>Here we long TSLA and short RIVN.</p></li>
+<li><p><strong>Trading Session Timeout</strong><br>
+Exit trades when:</p>
+<ul>
+<li>trade lasting over 20 days, and</li>
+<li><span class="math inline">\(|Z| &lt; 1\)</span> and <span class="math inline">\(p&lt;0.05\)</span> (still reverting)</li>
+</ul></li>
+</ol>
+</section>
+<section id="blotter" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="blotter"><span class="header-section-number">4</span> Blotter</h2>
+<iframe src="./dataframe/blotter.html" width="100%" height="500" frameborder="0">
+</iframe>
+</section>
+<section id="ledger" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="ledger"><span class="header-section-number">5</span> Ledger</h2>
+<iframe src="./dataframe/ledger.html" width="100%" height="500" frameborder="0">
+</iframe>
+</section>
+<section id="graphs" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="graphs"><span class="header-section-number">6</span> Graphs</h2>
+<section id="tsla-vs.-rivn-stock-log-prices" class="level3" data-number="6.1">
+<h3 data-number="6.1" class="anchored" data-anchor-id="tsla-vs.-rivn-stock-log-prices"><span class="header-section-number">6.1</span> TSLA vs.&nbsp;RIVN Stock Log Prices</h3>
+<iframe src="./images/log_price.html" width="100%" height="500" frameborder="0">
+</iframe>
+</section>
+<section id="rolling-adf-test-on-spread-window60" class="level3" data-number="6.2">
+<h3 data-number="6.2" class="anchored" data-anchor-id="rolling-adf-test-on-spread-window60"><span class="header-section-number">6.2</span> Rolling ADF Test on Spread (window=60)</h3>
+<iframe src="./images/adf_test.html" width="100%" height="500" frameborder="0">
+</iframe>
+</section>
+<section id="pnl-over-time" class="level3" data-number="6.3">
+<h3 data-number="6.3" class="anchored" data-anchor-id="pnl-over-time"><span class="header-section-number">6.3</span> PnL Over Time</h3>
+<iframe src="./images/cumulative_pnl.html" width="100%" height="500" frameborder="0">
+</iframe>
+</section>
+<section id="strategy-realized-returns-sensitivity" class="level3" data-number="6.4">
+<h3 data-number="6.4" class="anchored" data-anchor-id="strategy-realized-returns-sensitivity"><span class="header-section-number">6.4</span> Strategy Realized Returns Sensitivity</h3>
+<section id="strategy-vs-long-tsla" class="level4" data-number="6.4.1">
+<h4 data-number="6.4.1" class="anchored" data-anchor-id="strategy-vs-long-tsla"><span class="header-section-number">6.4.1</span> strategy vs long TSLA</h4>
+<iframe src="./images/Return_sensitivity_TSLA.html" width="100%" height="500" frameborder="0">
+</iframe>
+</section>
+<section id="strategy-vs-short-rivn" class="level4" data-number="6.4.2">
+<h4 data-number="6.4.2" class="anchored" data-anchor-id="strategy-vs-short-rivn"><span class="header-section-number">6.4.2</span> strategy vs short RIVN</h4>
+<iframe src="./images/Return_sensitivity_RIVN.html" width="100%" height="500" frameborder="0">
+</iframe>
+</section>
+<section id="summary" class="level4" data-number="6.4.3">
+<h4 data-number="6.4.3" class="anchored" data-anchor-id="summary"><span class="header-section-number">6.4.3</span> Summary</h4>
+<p>Notice that most of our returns come from <span class="math inline">\(\alpha\)</span>, not riding each asset’s movement.<br>
+We reaches almost market neutral regarding RIVN moves, and a moderate benefit when TSLA rises.<br>
+This shows our strategy controlled directional exposure with alpha-driven returns, and we capture divergence opportunities effectively.</p>
+</section>
+</section>
+</section>
+<section id="strategy-performance-summary" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="strategy-performance-summary"><span class="header-section-number">7</span> Strategy Performance Summary</h2>
+<p>Here’s the performance overview of the <strong>TSLA-RIVN Divergence Strategy</strong> over the past 3 years:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Number of Trades</strong></td>
+<td>14</td>
+</tr>
+<tr class="even">
+<td><strong>Average Return per Trade</strong></td>
+<td>6.79%</td>
+</tr>
+<tr class="odd">
+<td><strong>Volatility of Returns</strong></td>
+<td>15.32%</td>
+</tr>
+<tr class="even">
+<td><strong>Geometric Mean Return/Trade</strong></td>
+<td>5.93%</td>
+</tr>
+<tr class="odd">
+<td><strong>Sharpe Ratio (per trade)</strong></td>
+<td>0.44</td>
+</tr>
+<tr class="even">
+<td><strong>Average Trades per Year</strong></td>
+<td>4.67</td>
+</tr>
+<tr class="odd">
+<td><strong>Average Holding Period</strong></td>
+<td>26.93 days</td>
+</tr>
+<tr class="even">
+<td><strong>Annualized Return</strong></td>
+<td>71.38%</td>
+</tr>
+<tr class="odd">
+<td><strong>Annualized Volatility</strong></td>
+<td>46.85%</td>
+</tr>
+<tr class="even">
+<td><strong>Annualized Sharpe Ratio</strong></td>
+<td>1.52</td>
+</tr>
+<tr class="odd">
+<td><strong>Total PnL</strong></td>
+<td>$12,902.38</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="reflection-and-future-work" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="reflection-and-future-work"><span class="header-section-number">8</span> Reflection and Future Work</h2>
+<ol type="1">
+<li>Despite connection as EV manufacturers, TSLA isn’t just an EV company. Thanks to Elon Musk, TSLA is a tech powerhouse with a strong personality.</li>
+<li>Flipping the traditional pair trading strategy approaches to bet the divergence makes profit. At the end of the day, TSLA and RIVN will keep moving to their own beats, and we’ll be there to capture value every time the market forgets that.</li>
+<li>While the strategy delivers strong returns, its relatively high per-trade volatility highlights the importance of disciplined risk management and patience in waiting for optimal setups.</li>
+<li>Relying on only one pair limits trading opportunities. In the future we plan to extend our trading pairs to other EV companies (LCID, BYDDF) or traditional automakers transitioning to EV (F, GM).</li>
+</ol>
 
 
 </section>
