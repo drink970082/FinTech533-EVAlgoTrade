@@ -8,55 +8,6 @@ format:
     theme: cosmo
 ---
 
-## Concept
-
-TSLA and RIVN both sit under the "EV manufacturer" label, but let's be honest—are they really that similar?  
-RIVN is pretty straightforward - a pure EV company.  
-But what about TSLA? Considering the "X-factor" i.e. Elon Musk, will TSLA still be a pure EV manufacturer?
-
-So, what is the opportunity?  
-
-Look at the statistics from past three years:
-```bash
-                            OLS Regression Results                            
-==============================================================================
-Dep. Variable:                  close   R-squared:                       0.029
-Model:                            OLS   Adj. R-squared:                  0.027
-Method:                 Least Squares   F-statistic:                     22.17
-Date:                                   Prob (F-statistic):           2.97e-06
-Time:                                   Log-Likelihood:                -371.88
-No. Observations:                 753   AIC:                             747.8
-Df Residuals:                     751   BIC:                             757.0
-Df Model:                           1                                         
-Covariance Type:            nonrobust                                         
-==============================================================================
-                 coef    std err          t      P>|t|      [0.025      0.975]
-------------------------------------------------------------------------------
-const          1.4184      0.305      4.652      0.000       0.820       2.017
-close          0.2638      0.056      4.709      0.000       0.154       0.374
-==============================================================================
-Omnibus:                      397.076   Durbin-Watson:                   0.013
-Prob(Omnibus):                  0.000   Jarque-Bera (JB):               53.740
-Skew:                           0.306   Prob(JB):                     2.14e-12
-Kurtosis:                       1.843   Cond. No.                         119.
-==============================================================================
-
-Notes:
-[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
-
-Cointegration test result:
-========================================
-Test Statistic: -2.4426285226999096
-p-value: 0.30493998944930345
-```
-TSLA and RIVN are almost not related! Can we use this to do a "reversed" pair trading?  
-
-Our strategy concept is as follows:
-
-1. Since they are both EV producers, there's some short-term relationship that we can capture.
-2. Once they are close-related, we bet their spread to diverge. Here we long TSLA and short RIVN because of "Elon factor".
-3. We exit if the relationship still exists for a long time, or waiting them to diverge and take the profit.
-
 ## Pair Trading Strategy Overview
 
 ::: {.callout-note title="Trading Setup"}
