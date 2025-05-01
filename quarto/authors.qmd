@@ -1,0 +1,13 @@
+---
+title: "Authors"
+format:
+  html:
+    toc: true
+---
+
+
+This project was created by:
+
+- **Howard Wu**
+- **Philip Lee**
+
