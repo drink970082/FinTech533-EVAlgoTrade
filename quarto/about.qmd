@@ -74,10 +74,10 @@ format:
 
 ### Strategy Realized Returns Sensitivity
 
-#### strategy vs long TSLA
+#### Strategy vs Long TSLA
 <iframe src="/images/Return_sensitivity_TSLA.html" width="100%" height="500" frameborder="0"></iframe>
 
-#### strategy vs short RIVN
+#### Strategy vs Short RIVN
 <iframe src="/images/Return_sensitivity_RIVN.html" width="100%" height="500" frameborder="0"></iframe>
 
 #### Summary
