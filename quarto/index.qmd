@@ -4,10 +4,10 @@ title: "EVAlgoTrade"
 
 ## Welcome to EVAlgoTrade
 
-TSLA and RIVN both sit under the "EV manufacturer" label, but let's be honest—are they really that similar?  
-RIVN is pretty straightforward - a pure EV company.  
-But what about TSLA? Considering the "X-factor" i.e. Elon Musk, will TSLA still be a pure EV manufacturer?
-
+TSLA (Tesla) and RIVN (Rivian) are both considered electric vehicle (EV) manufacturers. But are they truly comparable?
+Rivian is a straightforward EV company — focused solely on producing electric vehicles.
+Tesla, on the other hand, is more complex. While it manufactures EVs, it's also heavily influenced by its CEO, Elon Musk, who brings unpredictability and attention that affect its stock beyond fundamentals.
+This raises a key question: can we really treat TSLA as just another EV manufacturer?
 So, what is the opportunity?  
 
 Look at the statistics from past three years:
@@ -43,10 +43,19 @@ Cointegration test result:
 Test Statistic: -2.4426285226999096
 p-value: 0.30493998944930345
 ```
-TSLA and RIVN are almost not related! Can we use this to do a "reversed" pair trading?  
+These results suggest that TSLA and RIVN do not share a strong long-term statistical relationship — they’re almost not cointegrated.
+That means their prices don’t tend to move together over time, unlike traditional pair trading candidates.
 
-Our strategy concept is as follows:
+## Strategy Overview
 
-1. Since they are both EV producers, there's some short-term relationship that we can capture.
-2. Once they are close-related, we bet their spread to diverge. Here we long TSLA and short RIVN because of "Elon factor".
-3. We exit if the relationship still exists for a long time, or waiting them to diverge and take the profit.
+This creates an opportunity for a "reversed" pair trading strategy, built on the assumption that any short-term correlation between them is likely temporary and will break down.
+
+1. Short-term signal drection
+   - If TSLA and RIVN prices become closely correlated in the short term, we interpret this as a mispricing opportunity.
+2. Positioning for divergence
+    - We bet on the two stocks reverting to their independent paths.
+    - Long TSLA, since it tends to recover thanks to the "Elon factor" and broader investor sentiment.
+    - Short RIVN, which is more purely tied to EV fundamentals and lacks the same speculative upside.
+3. We exit when
+    - The short-term relationship fades (as expected).
+    - Or a predefined time threshold is reached, indicating the opportunity has likely passed.

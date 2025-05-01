@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -69,10 +69,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6bd9cfa162949bde0a231f530c97869d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -139,7 +139,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -154,6 +154,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#welcome-to-evalgotrade" id="toc-welcome-to-evalgotrade" class="nav-link active" data-scroll-target="#welcome-to-evalgotrade">Welcome to EVAlgoTrade</a></li>
+  <li><a href="#strategy-overview" id="toc-strategy-overview" class="nav-link" data-scroll-target="#strategy-overview">Strategy Overview</a></li>
   </ul>
 </nav>
     </div>
@@ -181,10 +182,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="welcome-to-evalgotrade" class="level2">
 <h2 class="anchored" data-anchor-id="welcome-to-evalgotrade">Welcome to EVAlgoTrade</h2>
-<p>TSLA and RIVN both sit under the “EV manufacturer” label, but let’s be honest—are they really that similar?<br>
-RIVN is pretty straightforward - a pure EV company.<br>
-But what about TSLA? Considering the “X-factor” i.e.&nbsp;Elon Musk, will TSLA still be a pure EV manufacturer?</p>
-<p>So, what is the opportunity?</p>
+<p>TSLA (Tesla) and RIVN (Rivian) are both considered electric vehicle (EV) manufacturers. But are they truly comparable? Rivian is a straightforward EV company — focused solely on producing electric vehicles. Tesla, on the other hand, is more complex. While it manufactures EVs, it’s also heavily influenced by its CEO, Elon Musk, who brings unpredictability and attention that affect its stock beyond fundamentals. This raises a key question: can we really treat TSLA as just another EV manufacturer? So, what is the opportunity?</p>
 <p>Look at the statistics from past three years:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>                            <span class="ex">OLS</span> Regression Results                            </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">==============================================================================</span></span>
@@ -216,12 +214,27 @@ But what about TSLA? Considering the “X-factor” i.e.&nbsp;Elon Musk, will TS
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ex">========================================</span></span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="ex">Test</span> Statistic: <span class="at">-2.4426285226999096</span></span>
 <span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="ex">p-value:</span> 0.30493998944930345</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>TSLA and RIVN are almost not related! Can we use this to do a “reversed” pair trading?</p>
-<p>Our strategy concept is as follows:</p>
+<p>These results suggest that TSLA and RIVN do not share a strong long-term statistical relationship — they’re almost not cointegrated. That means their prices don’t tend to move together over time, unlike traditional pair trading candidates.</p>
+</section>
+<section id="strategy-overview" class="level2">
+<h2 class="anchored" data-anchor-id="strategy-overview">Strategy Overview</h2>
+<p>This creates an opportunity for a “reversed” pair trading strategy, built on the assumption that any short-term correlation between them is likely temporary and will break down.</p>
 <ol type="1">
-<li>Since they are both EV producers, there’s some short-term relationship that we can capture.</li>
-<li>Once they are close-related, we bet their spread to diverge. Here we long TSLA and short RIVN because of “Elon factor”.</li>
-<li>We exit if the relationship still exists for a long time, or waiting them to diverge and take the profit.</li>
+<li>Short-term signal drection
+<ul>
+<li>If TSLA and RIVN prices become closely correlated in the short term, we interpret this as a mispricing opportunity.</li>
+</ul></li>
+<li>Positioning for divergence
+<ul>
+<li>We bet on the two stocks reverting to their independent paths.</li>
+<li>Long TSLA, since it tends to recover thanks to the “Elon factor” and broader investor sentiment.</li>
+<li>Short RIVN, which is more purely tied to EV fundamentals and lacks the same speculative upside.</li>
+</ul></li>
+<li>We exit when
+<ul>
+<li>The short-term relationship fades (as expected).</li>
+<li>Or a predefined time threshold is reached, indicating the opportunity has likely passed.</li>
+</ul></li>
 </ol>
 
 
@@ -263,18 +276,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -306,7 +308,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp('/' + window.location.host + '/');
@@ -314,7 +336,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
     // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
     for (var i=0; i<links.length; i++) {
       const link = links[i];
       if (!isInternal(link.href)) {
@@ -411,7 +433,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
