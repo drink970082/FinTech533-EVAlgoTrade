@@ -108,7 +108,7 @@ Here's the performance overview of the **TSLA-RIVN Divergence Strategy** over th
 
 ## Reflection and Future Work
 
-1. ** TSLA ≠ Just an EV Company **
+1. **TSLA ≠ Just an EV Company**
    - One important thing for this strategy is understanding that Tesla isn’t just building electric vehicles as it’s also involved in AI, robotics, and energy.
    - The stock tends to move based on Elon Musk’s public actions, news headlines, and tech market sentiment, not just EV fundamentals.
    - In the earnings report 1Q of 2025 showed a signficant decline of 71% of net income and revenue falling 9% a year, but the stock actually went up!
