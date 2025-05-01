@@ -14,8 +14,10 @@ website:
     right:
       - icon: "youtube"
         href: "https://www.youtube.com/watch?v=E4VEs62VMnA"
+        target: "_blank"
       - icon: "github"
         href: "https://github.com/drink970082/FinTech533-EVAlgoTrade"
+        target: "_blank"
 
 format:
   html:

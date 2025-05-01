@@ -1,5 +1,33 @@
 [
   {
+    "objectID": "authors.html",
+    "href": "authors.html",
+    "title": "Authors",
+    "section": "",
+    "text": "This project was created by:\n\nHoward Wu\nPhilip Lee"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "EVAlgoTrade",
+    "section": "",
+    "text": "📢 Tip: You can click the YouTube or GitHub icons in the top-right corner to watch a short explanation of the strategy and see the source code for this analysis."
+  },
+  {
+    "objectID": "index.html#welcome-to-evalgotrade",
+    "href": "index.html#welcome-to-evalgotrade",
+    "title": "EVAlgoTrade",
+    "section": "Welcome to EVAlgoTrade",
+    "text": "Welcome to EVAlgoTrade\nTSLA (Tesla) and RIVN (Rivian) are both considered electric vehicle (EV) manufacturers. But are they truly comparable? Rivian is a straightforward EV company — focused solely on producing electric vehicles. Tesla, on the other hand, is more complex. While it manufactures EVs, it’s also heavily influenced by its CEO, Elon Musk, who brings unpredictability and attention that affect its stock beyond fundamentals. This raises a key question: can we really treat TSLA as just another EV manufacturer? So, what is the opportunity?\nLook at the statistics from past three years:\n                            OLS Regression Results                            \n==============================================================================\nDep. Variable:                  close   R-squared:                       0.029\nModel:                            OLS   Adj. R-squared:                  0.027\nMethod:                 Least Squares   F-statistic:                     22.17\nDate:                                   Prob (F-statistic):           2.97e-06\nTime:                                   Log-Likelihood:                -371.88\nNo. Observations:                 753   AIC:                             747.8\nDf Residuals:                     751   BIC:                             757.0\nDf Model:                           1                                         \nCovariance Type:            nonrobust                                         \n==============================================================================\n                 coef    std err          t      P&gt;|t|      [0.025      0.975]\n------------------------------------------------------------------------------\nconst          1.4184      0.305      4.652      0.000       0.820       2.017\nclose          0.2638      0.056      4.709      0.000       0.154       0.374\n==============================================================================\nOmnibus:                      397.076   Durbin-Watson:                   0.013\nProb(Omnibus):                  0.000   Jarque-Bera (JB):               53.740\nSkew:                           0.306   Prob(JB):                     2.14e-12\nKurtosis:                       1.843   Cond. No.                         119.\n==============================================================================\n\nNotes:\n[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n\nCointegration test result:\n========================================\nTest Statistic: -2.4426285226999096\np-value: 0.30493998944930345\nThese results suggest that TSLA and RIVN do not share a strong long-term statistical relationship — they’re almost not cointegrated. That means their prices don’t tend to move together over time, unlike traditional pair trading candidates."
+  },
+  {
+    "objectID": "index.html#strategy-overview",
+    "href": "index.html#strategy-overview",
+    "title": "EVAlgoTrade",
+    "section": "Strategy Overview",
+    "text": "Strategy Overview\nThis creates an opportunity for a “reversed” pair trading strategy, built on the assumption that any short-term correlation between them is likely temporary and will break down.\n\nShort-term signal direction\n\nIf TSLA and RIVN prices become closely correlated in the short term, we interpret this as a mispricing opportunity.\n\nPositioning for divergence\n\nWe bet on the two stocks reverting to their independent paths.\nLong TSLA, since it tends to recover thanks to the “Elon factor” and broader investor sentiment.\nShort RIVN, which is more purely tied to EV fundamentals and lacks the same speculative upside.\n\nWe exit when\n\nThe short-term relationship fades (as expected).\nOr a predefined time threshold is reached, indicating the opportunity has likely passed."
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "Strategy",
@@ -54,40 +82,5 @@
     "title": "Strategy",
     "section": "7 Reflection and Future Work",
     "text": "7 Reflection and Future Work\n\nTSLA ≠ Just an EV Company\n\nOne important thing for this strategy is understanding that Tesla isn’t just building electric vehicles as it’s also involved in AI, robotics, and energy.\nThe stock tends to move based on Elon Musk’s public actions, news headlines, and tech market sentiment, not just EV fundamentals.\nIn the earnings report 1Q of 2025 showed a signficant decline of 71% of net income and revenue falling 9% a year, but the stock actually went up!\nAs such, Elon’s fanbase (the Elon Musk Factor) makes TSLA behave differently from a company like RIVN, which is much more focused on vehicle production alone.\n\nReversing the Traditional Pair Trade\n\nIn most pair strategies, traders bet two related stocks will converge back together after moving apart.\nInstead of betting on convergence, we anticipate divergence between TSLA and RIVN when they appear temporarily correlated.\nThis contrarian approach takes advantage of market misperceptions.\n\nManaging Risk and Timing\n\nAlthough the strategy delivers strong returns, the high per-trade volatility demands disciplined risk management and patience to wait for valid signals.\nTo control this, we set strict entry and exit rules, limit trade duration to 20 days, and only enter trades when there is clear cointegration.\n\nExpanding the Strategy Universe\n\nCurrently, the strategy is based on a single pair.\nFuture work includes adding other EV stocks (e.g., LCID, BYDDF) and legacy automakers transitioning to EV (e.g., Ford, GM) to scale opportunity and diversify risk.\nWe may also use clustering algorithms to group similar stocks based on historical price behavior and fundamentals, helping us find more profitable and uncorrelated pair combinations."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "EVAlgoTrade",
-    "section": "",
-    "text": "📢 Tip: You can click the YouTube or GitHub icons in the top-right corner to watch a short explanation of the strategy and see the source code for this analysis."
-  },
-  {
-    "objectID": "index.html#welcome-to-evalgotrade",
-    "href": "index.html#welcome-to-evalgotrade",
-    "title": "EVAlgoTrade",
-    "section": "Welcome to EVAlgoTrade",
-    "text": "Welcome to EVAlgoTrade\nTSLA (Tesla) and RIVN (Rivian) are both considered electric vehicle (EV) manufacturers. But are they truly comparable? Rivian is a straightforward EV company — focused solely on producing electric vehicles. Tesla, on the other hand, is more complex. While it manufactures EVs, it’s also heavily influenced by its CEO, Elon Musk, who brings unpredictability and attention that affect its stock beyond fundamentals. This raises a key question: can we really treat TSLA as just another EV manufacturer? So, what is the opportunity?\nLook at the statistics from past three years:\n                            OLS Regression Results                            \n==============================================================================\nDep. Variable:                  close   R-squared:                       0.029\nModel:                            OLS   Adj. R-squared:                  0.027\nMethod:                 Least Squares   F-statistic:                     22.17\nDate:                                   Prob (F-statistic):           2.97e-06\nTime:                                   Log-Likelihood:                -371.88\nNo. Observations:                 753   AIC:                             747.8\nDf Residuals:                     751   BIC:                             757.0\nDf Model:                           1                                         \nCovariance Type:            nonrobust                                         \n==============================================================================\n                 coef    std err          t      P&gt;|t|      [0.025      0.975]\n------------------------------------------------------------------------------\nconst          1.4184      0.305      4.652      0.000       0.820       2.017\nclose          0.2638      0.056      4.709      0.000       0.154       0.374\n==============================================================================\nOmnibus:                      397.076   Durbin-Watson:                   0.013\nProb(Omnibus):                  0.000   Jarque-Bera (JB):               53.740\nSkew:                           0.306   Prob(JB):                     2.14e-12\nKurtosis:                       1.843   Cond. No.                         119.\n==============================================================================\n\nNotes:\n[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.\n\nCointegration test result:\n========================================\nTest Statistic: -2.4426285226999096\np-value: 0.30493998944930345\nThese results suggest that TSLA and RIVN do not share a strong long-term statistical relationship — they’re almost not cointegrated. That means their prices don’t tend to move together over time, unlike traditional pair trading candidates."
-  },
-  {
-    "objectID": "index.html#strategy-overview",
-    "href": "index.html#strategy-overview",
-    "title": "EVAlgoTrade",
-    "section": "Strategy Overview",
-    "text": "Strategy Overview\nThis creates an opportunity for a “reversed” pair trading strategy, built on the assumption that any short-term correlation between them is likely temporary and will break down.\n\nShort-term signal direction\n\nIf TSLA and RIVN prices become closely correlated in the short term, we interpret this as a mispricing opportunity.\n\nPositioning for divergence\n\nWe bet on the two stocks reverting to their independent paths.\nLong TSLA, since it tends to recover thanks to the “Elon factor” and broader investor sentiment.\nShort RIVN, which is more purely tied to EV fundamentals and lacks the same speculative upside.\n\nWe exit when\n\nThe short-term relationship fades (as expected).\nOr a predefined time threshold is reached, indicating the opportunity has likely passed."
-  },
-  {
-    "objectID": "authors.html",
-    "href": "authors.html",
-    "title": "Authors",
-    "section": "",
-    "text": "This project was created by:\n\nHoward Wu\nPhilip Lee"
-  },
-  {
-    "objectID": "authors.html#authors",
-    "href": "authors.html#authors",
-    "title": "Authors",
-    "section": "",
-    "text": "This project was developed by:\n\nHorward Wu\nPhilip Lee"
   }
 ]
