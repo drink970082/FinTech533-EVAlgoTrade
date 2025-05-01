@@ -9,11 +9,13 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+      - href: authors.qmd
+        text: Authors
     right:
+      - icon: "youtube"
+        href: "https://www.youtube.com/watch?v=E4VEs62VMnA"
       - icon: "github"
         href: "https://github.com/drink970082/FinTech533-EVAlgoTrade"
-      - icon: "youtube"
-        href: "https://www.youtube.com/"
 
 format:
   html:
