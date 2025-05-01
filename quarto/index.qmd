@@ -2,6 +2,8 @@
 title: "EVAlgoTrade"
 ---
 
+> 📢 **Tip:** You can click the **YouTube** or **GitHub** icons in the top-right corner to watch a short explanation of the strategy and see the source code for this analysis.
+
 ## Welcome to EVAlgoTrade
 
 TSLA (Tesla) and RIVN (Rivian) are both considered electric vehicle (EV) manufacturers. But are they truly comparable?
@@ -50,7 +52,7 @@ That means their prices don’t tend to move together over time, unlike traditio
 
 This creates an opportunity for a "reversed" pair trading strategy, built on the assumption that any short-term correlation between them is likely temporary and will break down.
 
-1. Short-term signal drection
+1. Short-term signal direction
    - If TSLA and RIVN prices become closely correlated in the short term, we interpret this as a mispricing opportunity.
 2. Positioning for divergence
     - We bet on the two stocks reverting to their independent paths.
