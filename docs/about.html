@@ -273,9 +273,7 @@ Exit trades when:</p>
 </section>
 <section id="summary" class="level4" data-number="5.4.3">
 <h4 data-number="5.4.3" class="anchored" data-anchor-id="summary"><span class="header-section-number">5.4.3</span> Summary</h4>
-<p>Notice that most of our returns come from <span class="math inline">\(\alpha\)</span>, not riding each asset’s movement.<br>
-We reaches almost market neutral regarding RIVN moves, and a moderate benefit when TSLA rises.<br>
-This shows our strategy controlled directional exposure with alpha-driven returns, and we capture divergence opportunities effectively.</p>
+<p>Most of the returns are attributable to <strong>alpha</strong>, not passive exposure to either stock. Our strategy achieves <strong>near market-neutrality</strong> with respect to RIVN, and gains a <strong>moderate positive sensitivity</strong> to TSLA’s upside — consistent with our thesis. This confirms our model successfully isolates pricing divergences and avoids directional bias.</p>
 </section>
 </section>
 </section>
@@ -341,11 +339,32 @@ This shows our strategy controlled directional exposure with alpha-driven return
 <section id="reflection-and-future-work" class="level2" data-number="7">
 <h2 data-number="7" class="anchored" data-anchor-id="reflection-and-future-work"><span class="header-section-number">7</span> Reflection and Future Work</h2>
 <ol type="1">
-<li>Despite connection as EV manufacturers, TSLA isn’t just an EV company. Thanks to Elon Musk, TSLA is a tech powerhouse with a strong personality.</li>
-<li>Flipping the traditional pair trading strategy approaches to bet the divergence makes profit. At the end of the day, TSLA and RIVN will keep moving to their own beats, and we’ll be there to capture value every time the market forgets that.</li>
-<li>While the strategy delivers strong returns, its relatively high per-trade volatility highlights the importance of disciplined risk management and patience in waiting for optimal setups.</li>
-<li>Relying on only one pair limits trading opportunities. In the future we plan to extend our trading pairs to other EV companies (LCID, BYDDF) or traditional automakers transitioning to EV (F, GM).</li>
+<li>** TSLA ≠ Just an EV Company **
+<ul>
+<li>One important thing for this strategy is understanding that Tesla isn’t just building electric vehicles as it’s also involved in AI, robotics, and energy.</li>
+<li>The stock tends to move based on Elon Musk’s public actions, news headlines, and tech market sentiment, not just EV fundamentals.</li>
+<li>In the earnings report 1Q of 2025 showed a signficant decline of 71% of net income and revenue falling 9% a year, but the stock actually went up!</li>
+<li>As such, Elon’s fanbase (the Elon Musk Factor) makes TSLA behave differently from a company like RIVN, which is much more focused on vehicle production alone.</li>
+</ul></li>
+<li><strong>Reversing the Traditional Pair Trade</strong>
+<ul>
+<li>In most pair strategies, traders bet two related stocks will converge back together after moving apart.</li>
+<li>Instead of betting on convergence, we anticipate divergence between TSLA and RIVN when they appear temporarily correlated.</li>
+<li>This contrarian approach takes advantage of market misperceptions.</li>
+</ul></li>
+<li><strong>Managing Risk and Timing</strong>
+<ul>
+<li>Although the strategy delivers strong returns, the high per-trade volatility demands disciplined risk management and patience to wait for valid signals.</li>
+<li>To control this, we set strict entry and exit rules, limit trade duration to 20 days, and only enter trades when there is clear cointegration.</li>
+</ul></li>
+<li><strong>Expanding the Strategy Universe</strong>
+<ul>
+<li>Currently, the strategy is based on a single pair.</li>
+<li>Future work includes adding other EV stocks (e.g., LCID, BYDDF) and legacy automakers transitioning to EV (e.g., Ford, GM) to scale opportunity and diversify risk.</li>
+<li>We may also use clustering algorithms to group similar stocks based on historical price behavior and fundamentals, helping us find more profitable and uncorrelated pair combinations.</li>
+</ul></li>
 </ol>
+<hr>
 
 
 </section>
